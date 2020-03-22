@@ -19,6 +19,7 @@ public class userServlet extends HttpServlet {
         String pass = request.getParameter("pass");
         userHandler handler = new userHandler();
         RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        user u;
 
         switch (mode) {
             case "reg":
@@ -32,13 +33,36 @@ public class userServlet extends HttpServlet {
                 break;
 
             case "login":
-                user u = handler.login(email, pass);
+                u = handler.login(email, pass);
 
                 if (u != null) {
                     request.getSession().setAttribute("user", u);
                     rd = request.getRequestDispatcher("/home");
                 }
 
+                break;
+
+            case "prof":
+                String currentProfile = request.getParameter("current");
+                
+                if (currentProfile == null){
+                    currentProfile = "";
+                }
+
+                boolean current = false;
+                
+                if (currentProfile.equals("y")) {
+                    current = true;
+                    u = (user) request.getSession().getAttribute("user");
+                } else {
+                    int userID = Integer.valueOf(request.getParameter("ID"));
+                    u = handler.getUserByID(userID);
+                }
+
+                request.setAttribute("profUser", u);
+                request.setAttribute("current", current);
+                rd = request.getRequestDispatcher("profile.jsp");
+                
                 break;
         }
 

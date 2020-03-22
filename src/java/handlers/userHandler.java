@@ -27,9 +27,22 @@ public class userHandler {
         try {
             user u = con.getUserByEmail(email);
 
-            System.out.println(con.lastEvent);
-
             if (u.getPass().equals(pass)) {
+                return u;
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        return null;
+    }
+
+    public user getUserByID(int ID) {
+
+        try {
+            user u = con.getUserByID(ID);
+
+            if (u != null) {
                 return u;
             }
         } catch (Exception e) {
