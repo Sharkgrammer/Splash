@@ -45,6 +45,11 @@ public class userServlet extends HttpServlet {
 
                     ServletContext context = getServletContext();
                     String webPath = context.getRealPath("") + "/../../web/userImages";
+                    
+                    File test = new File(webPath);
+                    if (! test.exists()){
+                        test.mkdir();
+                    }
 
                     String fileName = webPath + "/" + orgFileName;
 
